@@ -1,0 +1,134 @@
+Program:
+	Var:
+		ID:
+			a
+			b
+			c
+		Type:
+			integer
+		ID:
+			h
+		Type:
+			real
+	SubDeclare:
+		SubDeclaration:
+			func factorial:
+				Arguments:
+					ID:
+						a
+					Type:
+						integer
+				Type:
+					integer
+			Var:
+				ID:
+					result
+					c
+					d
+					e
+				Type:
+					integer
+			Compound statement:
+				Optional statements:
+					Statement List:
+						Assign:
+							Variable:
+								result
+							Expression:
+								1
+						Assign:
+							Variable:
+								e
+							Expression:
+								1
+						While clause:
+							Expression:
+								Expression in parentheses:
+									<=:
+										e
+										a
+							Statement:
+								Compound statement:
+									Optional statements:
+										Statement List:
+											Assign:
+												Variable:
+													result
+												Expression:
+													*:
+														result
+														e
+											Assign:
+												Variable:
+													e
+												Expression:
+													+:
+														e
+														1
+						Assign:
+							Variable:
+								factorial
+							Expression:
+								result
+	Compound statement:
+		Optional statements:
+			Statement List:
+				print:
+					Strings:
+						factorials
+				Assign:
+					Variable:
+						b
+					Expression:
+						10
+				Assign:
+					Variable:
+						a
+					Expression:
+						1
+				While clause:
+					Expression:
+						Expression in parentheses:
+							<=:
+								a
+								b
+					Statement:
+						Compound statement:
+							Optional statements:
+								Statement List:
+									Assign:
+										Variable:
+											c
+										Expression:
+											Func:
+												factorial
+												ExpressionList:
+													Expression:
+														a
+									print:
+										c
+									Assign:
+										Variable:
+											a
+										Expression:
+											+:
+												a
+												1
+
+
+THREE_ADDRESS_CODE
+
+('return_void',)
+('store_int', '__int_7', 'e')
+('le_int', '__int_10', '__int_11', '__bool_0')
+('store_int', '__int_17', 'e')
+('store_int', '__int_17', 'e')
+('store_int', '__int_17', 'e')
+('store_int', '__int_18', 'factorial')
+('return_int', '__int_19')
+('le_int', '__int_22', '__int_23', '__bool_1')
+('store_int', '__int_29', 'a')
+('store_int', '__int_29', 'a')
+('store_int', '__int_29', 'a')
+('store_int', '__int_29', 'a')
+('store_int', '__int_29', 'a')
