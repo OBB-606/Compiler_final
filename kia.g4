@@ -2,10 +2,10 @@ grammar kia;
 
 program : PROGRAM ID SEMICOLON declarations subDeclarations comStatement DOT;
 
-declarations : VAR identifierList COLON type (declarations)*;
+declarations : VAR identList COLON type (declarations)*;
 
-identifierList : ID
-               | identifierList COMMA ID;
+identList : ID
+               | identList COMMA ID;
 
 
 type : INT
@@ -18,10 +18,10 @@ subHead : FUNC ID args RETURN type SEMICOLON
 
 args : (OPEN_PAREN paramList CLOSE_PAREN)*;
 
-paramList : identifierList COLON type
-          | paramList SEMICOLON identifierList COLON type;
+paramList : identList COLON type
+          | paramList SEMICOLON identList COLON type;
 
-comStatement : BEGIN optionalStatements END SEMICOLON?;
+comStatement : BEGIN optionalStatements END DOT? SEMICOLON?;
 
 comStatementWBC : BEGIN optionalStatementsWBC END;
 

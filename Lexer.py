@@ -35,12 +35,12 @@ states = (
     ('string', 'exclusive'),
 )
 tokens = [
-             'ASSIGN', 'EQUAL',
-             'STRING', 'COLON', 'COMMA',
-             'OPEN_PAREN', 'CLOSE_PAREN', 'INT_DIGIT', 'PLUSMINUS',
-             'MULTIPLE', 'STR', 'SEMICOLON', 'ID',
-             'COMPARE', 'DOT', 'REAL_DIGIT', 'DIVIDE'
-         ] + list(reserved.values())
+ 'ASSIGN', 'EQUAL',
+ 'STRING', 'COLON', 'COMMA',
+ 'OPEN_PAREN', 'CLOSE_PAREN', 'INT_DIGIT',
+ 'PLUSMINUS','MULTIPLE', 'STR', 'SEMICOLON',
+ 'ID','COMPARE', 'DOT', 'REAL_DIGIT', 'DIVIDE'
+ ] + list(reserved.values())
 t_DIVIDE = r'\/'
 t_DOT = r'\.'
 t_COMPARE = r'\>\=|\<\=|\>|\<|\<\>'
@@ -108,35 +108,15 @@ def t_error(t):
 lexer = lex.lex(reflags=re.UNICODE | re.DOTALL | re.IGNORECASE)
 
 if __name__ == "__main__":
-    data = '''program Factorials;
+    data = '''program Hello.kia;
 var a,b,c : integer
-var h : real
-
-func factorial (a: integer) return integer;
-   var result,c,d,e : integer
-   begin
-       result = 1;
-       e = 1;
-       while ( e <= a ) do
-       begin
-            result = result * e;
-            e = e + 1
-       end;
-       factorial = result
-   end;
-
 begin
-    print("factorials.kia");
+    a = 5;
     b = 10;
-    a = 1;
-    while ( a <= b) do
-    begin
-        c = factorial(a);
-        print(c);
-        a = a+1
-    end
-
-end.    '''
+    c = a * b;
+    print("a * b =");
+    print(c)
+end.'''
 
     lexer.input(data)
     counter = 0

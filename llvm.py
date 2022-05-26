@@ -479,7 +479,7 @@ def compile_llvm(source):
 
 def main():
     data = '''
-    program Hello;
+    program Hello.kia;
     var a,b,c : integer
     var h : real
     function Sejvil (o : integer; f: integer ) : integer; 

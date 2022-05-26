@@ -7,3 +7,4 @@ begin
     print("a * b =");
     print(c)
 end.
+
