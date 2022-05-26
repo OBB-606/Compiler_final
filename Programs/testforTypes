@@ -1,0 +1,21 @@
+program testForTypes;
+var a,b,c : integer
+var h : real
+
+begin
+
+    h = 10 / 2;
+    print(h);
+    a = 10 mod 2;
+    print(a);
+    h = 10.0 div 2.0;
+    print(h);
+    h = 10.0 mod 1.9;
+    print(h);
+    h = 10 div 2.0;
+    print(h);
+    h = 10.0 div 2;
+    print(h);
+    h = 10 mod 2.0;
+    print(h)
+end.

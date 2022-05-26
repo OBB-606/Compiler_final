@@ -35,7 +35,7 @@ def main():
     from llvm import compile_llvm
 
     if len(sys.argv) != 2:
-        sys.stderr.write("Usage: python3 -m run Tests/filename\n")
+        sys.stderr.write("Usage: python3 -m run Programs/filename\n")
         raise SystemExit(1)
 
     source = open(sys.argv[1]).read()
