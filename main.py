@@ -50,7 +50,7 @@ def main():
     # print(getTable(tree))
 
     block = Block()
-    block.inithead('Main')
+    block.initname('Main')
     block = GenerateCode(block, tree, 'global', False , getTable(tree))
     cprint("\n---------------------THREE-ADDRESS CODE---------------------", 'cyan')
     prTr(block, 1)

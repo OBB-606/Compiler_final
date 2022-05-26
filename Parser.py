@@ -83,7 +83,7 @@ def p_subHead(p):  # SUBDECLARATIONS / SubDeclaration / subHead
 
 def p_args(p):  # SUBDECLARATIONS / SubDeclaration / subHead / args
     '''args :
-            | OPEN paramList CLOSE'''
+            | OPEN_PAREN paramList CLOSE_PAREN'''
     if len(p) == 1:
         p[0] = Node('Ar',[])
     else:
@@ -151,10 +151,10 @@ def p_statementListWBC(p):  # COMPOUNDSTATEMENTWBC / OptionalStatementsWBC / sta
 
 def p_statement(p):  # COMPOUNDSTATEMENT / OptionalStatements / statementList / statement
     '''statement : variable ASSIGN expression
-                | PRINT OPEN string CLOSE
-                | PRINT OPEN ID CLOSE
-                | READ OPEN string CLOSE
-                | ID OPEN expressionListProc CLOSE
+                | PRINT OPEN_PAREN string CLOSE_PAREN
+                | PRINT OPEN_PAREN ID CLOSE_PAREN
+                | READ OPEN_PAREN string CLOSE_PAREN
+                | ID OPEN_PAREN expressionListProc CLOSE_PAREN
                 | body
                 | IF expression THEN bodyWBC
                 | WHILE expression DO statement
@@ -255,10 +255,10 @@ def p_term(p):
 
 def p_factor(p):
     '''factor : ID
-                | ID OPEN expressionList CLOSE
+                | ID OPEN_PAREN expressionList CLOSE_PAREN
                 | INT_DIGIT
                 | REAL_DIGIT
-                | OPEN expression CLOSE
+                | OPEN_PAREN expression CLOSE_PAREN
                 | NOT factor'''
     if len(p) == 2:
         p[0] = p[1]
@@ -363,7 +363,7 @@ def main():
        end;
 
     begin
-        print("the first b factorials");
+        print("the first b factorials.kia");
         b = 10;
         a = 1;
         while ( a <= b) do

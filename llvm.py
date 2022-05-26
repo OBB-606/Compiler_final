@@ -31,14 +31,9 @@ class GenerateLLVM(object):
         self.locals = {}
         self.temps = {}
         self.last_branch = None
-     #   self._declare_print_function_int()
+
         self._declare_print_function_string()
 
-    #def _declare_print_function_int(self):
-    #    voidptr_ty = IntType(8).as_pointer()
-    #    print_ty = FunctionType(IntType(32), [voidptr_ty], var_arg=True)
-    #    printint = Function(self.module, print_ty, name="printint")
-    #    self.printint = printint
     def _declare_print_function_string(self):
         self.printf= Function(self.module, FunctionType(IntType(32), [IntType(8).as_pointer()], var_arg=True), name="printf")
 
@@ -95,7 +90,6 @@ class GenerateLLVM(object):
         self.builder.position_at_end(block)
 
     def cbranch(self, testvar, true_block, false_block):
-
         self.builder.cbranch(self.temps[testvar], true_block, false_block)
 
     def branch(self, next_block):
@@ -397,9 +391,9 @@ class GenerateBlocksLLVM( object ):
                 else:
                     print([i])
                     self.visit_BasicBlock([i])
-            elif i.head == 'IfBlock':
+            elif i.name == 'IfBlock':
                 self.visit_IfBlock(i)
-            elif i.head == 'WhileBlock':
+            elif i.name == 'WhileBlock':
                 self.visit_WhileBlock(i)
             else:
                 self.partition(i)
@@ -407,11 +401,11 @@ class GenerateBlocksLLVM( object ):
         self.gen = generator
 
     def generate_function(self, func):
-        name = func.head
-        if func.head.startswith('func'):
-            name = func.head[5:]
-        if func.head.startswith('proc'):
-            name = func.head[5:]
+        name = func.name
+        if func.name.startswith('func'):
+            name = func.name[5:]
+        if func.name.startswith('proc'):
+            name = func.name[5:]
 
         self.gen.start_function(name, func.return_type, func.params)
         if name == '__init':
@@ -474,7 +468,7 @@ def compile_llvm(source):
 
     functions = source.instructions
     #print(functions)
-    generator = GenerateLLVM()
+    generator = GenerateLLVM('I want zachot')
     blockgen = GenerateBlocksLLVM(generator)
     for func in functions:
         blockgen.generate_function(func)
@@ -525,7 +519,7 @@ def main():
 
     tree = build_tree(data)
     bloc = Block()
-    bloc.inithead('Main')
+    bloc.initname('Main')
     bloc = GenerateCode(bloc, tree, 'global',False)
     prTr(bloc,1)
     llvm_code = compile_llvm(bloc)

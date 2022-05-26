@@ -3,7 +3,7 @@ from termcolor import cprint
 
 class Block:
     def __init__(self):
-        self.head = []
+        self.name = []
         self.instructions = []
         self.return_type = None
         self.params = []
@@ -11,8 +11,8 @@ class Block:
     def append(self, instruction):
         self.instructions.append(instruction)
 
-    def inithead(self, head):
-        self.head = head
+    def initname(self, name):
+        self.name = name
 
     def isblock(self):
         return True
@@ -64,12 +64,12 @@ def GenerateCode(parentblock, tree, scope, IsMain , table):
             if part.type == 'Var':
                 if scope == 'global':
                     new = Block()
-                    new.inithead('__init')
+                    new.initname('__init')
                     new.return_type = 'void'
                     parentblock.append(new)
                 else:
                     new = Block()
-                    new.inithead(part.type)
+                    new.initname(part.type)
                     parentblock.append(new)
                 if scope != 'global' and not (scope.startswith(' ')):
                     #print(table)
@@ -95,7 +95,7 @@ def GenerateCode(parentblock, tree, scope, IsMain , table):
                 GenerateCode(new, part, scope, IsMain , table)
             if part.type == 'Arguments':
                 new = Block()
-                new.inithead('Var2')
+                new.initname('Var2')
                 parentblock.append(new)
                 index = 0
                 for i in range(0, len(part.parts), 2):
@@ -111,7 +111,7 @@ def GenerateCode(parentblock, tree, scope, IsMain , table):
             if part.type == 'SubDeclaration':
                 scope = part.parts[0].type[5:]
                 new = Block()
-                new.inithead(part.parts[0].type)
+                new.initname(part.parts[0].type)
                 if part.parts[0].type.startswith('func'):
                     new.return_type = typeconv[part.parts[0].parts[1].parts[0]]
                 if part.parts[0].type.startswith('proc'):
@@ -120,10 +120,10 @@ def GenerateCode(parentblock, tree, scope, IsMain , table):
                 GenerateCode(new, part, scope, IsMain , table)
                 for ins in new.instructions:  # если встречаем блоки var1 и var 2 (то есть аргументы и вары функции , то мерджим два блока )
                     for ins2 in new.instructions:  # естесственно через зад
-                        if ins.head == 'Var' and ins2.head == 'Var2':
+                        if ins.name == 'Var' and ins2.name == 'Var2':
                             for a in range(len(ins.instructions)):
                                 ins2.append(ins.instructions[a])
-                            ins2.inithead('Var')
+                            ins2.initname('Var')
                             i = (new.instructions.index(ins))
                             new.instructions.pop(i)
                 if part.parts[0].type.startswith('func'):
@@ -134,16 +134,16 @@ def GenerateCode(parentblock, tree, scope, IsMain , table):
                     new.append(ex)
                 scope = 'global'
             elif part.type == 'Compound statement':
-                if parentblock.head != 'WHILEbody_Block' and scope == 'global' and (not IsMain):
+                if parentblock.name != 'WHILEbody_Block' and scope == 'global' and (not IsMain):
                     new = Block()
-                    new.inithead('main')
+                    new.initname('main')
                     new.return_type = 'void'
                     IsMain = True
                     parentblock.append(new)
                     GenerateCode(new, part, scope, IsMain , table)
-                elif parentblock.head != 'WHILEbody_Block':
+                elif parentblock.name != 'WHILEbody_Block':
                     new = Block()
-                    new.inithead('default')
+                    new.initname('default')
                     parentblock.append(new)
                     GenerateCode(new, part, scope, IsMain, table)
                 else:
@@ -151,24 +151,24 @@ def GenerateCode(parentblock, tree, scope, IsMain , table):
                 # print(2)
             elif part.type == 'If clause':
                 ifBlock = Block()
-                ifBlock.inithead('IfBlock')
+                ifBlock.initname('IfBlock')
                 parentblock.append(ifBlock)
                 condition = Block()
-                condition.inithead('IFcondition')
+                condition.initname('IFcondition')
                 body = Block()
-                body.inithead('IFbody')
+                body.initname('IFbody')
                 ifBlock.append(condition)
                 ifBlock.append(body)
                 GenerateCode(condition, part.parts[0], scope, IsMain , table)
                 GenerateCode(body, part.parts[1], scope, IsMain , table)
             elif part.type == 'While clause':
                 whileBlock = Block()
-                whileBlock.inithead('WhileBlock')
+                whileBlock.initname('WhileBlock')
                 parentblock.append(whileBlock)
                 condition = Block()
-                condition.inithead('WHILEcondition')
+                condition.initname('WHILEcondition')
                 wbody = Block()
-                wbody.inithead('WHILEbody')
+                wbody.initname('WHILEbody')
                 whileBlock.append(condition)
                 whileBlock.append(wbody)
                 GenerateCode(condition, part.parts[0], scope, IsMain, table)
@@ -508,7 +508,7 @@ def prTr(Block, sink):
 
         if a.__class__ is not tuple:
 
-            print(' ' * sink * 3 + a.head, end='')
+            print(' ' * sink * 3 + a.name, end='')
             if a.return_type != None:
                 print('   | ' + a.return_type, a.params, end='')
             print('\t')

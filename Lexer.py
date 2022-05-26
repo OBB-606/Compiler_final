@@ -1,6 +1,9 @@
 import ply.lex as lex
 from ply.lex import TOKEN
 import re
+from prettytable import PrettyTable
+table_tokens = PrettyTable()
+table_tokens.field_names = ["ID Token", "Type token", "Value token", "Lin", "Position"]
 
 reserved = {
     'if': 'IF',
@@ -28,24 +31,16 @@ reserved = {
     'return' : 'RETURN'
 
 }
-
 states = (
     ('string', 'exclusive'),
 )
-
-# без этой штуки ничего не съинтерпретируется, потому что этот массив шарится между лексером и парсером и кроме того используется внутренне библиотекой
 tokens = [
              'ASSIGN', 'EQUAL',
              'STRING', 'COLON', 'COMMA',
-             'OPEN', 'CLOSE', 'INT_DIGIT', 'PLUSMINUS',
+             'OPEN_PAREN', 'CLOSE_PAREN', 'INT_DIGIT', 'PLUSMINUS',
              'MULTIPLE', 'STR', 'SEMICOLON', 'ID',
              'COMPARE', 'DOT', 'REAL_DIGIT', 'DIVIDE'
          ] + list(reserved.values())
-
-# определим регулярку для абстрактного идетификатора
-ident = r'[a-z]\w*'
-
-# для каждого токена из массива мы должны написать его определение вида t_ИМЯТОКЕНА = регулярка
 t_DIVIDE = r'\/'
 t_DOT = r'\.'
 t_COMPARE = r'\>\=|\<\=|\>|\<|\<\>'
@@ -54,12 +49,11 @@ t_COLON = r'\:'
 t_ASSIGN = r'\='
 t_SEMICOLON = r';'
 t_COMMA = r','
-t_OPEN = r'\('
-t_CLOSE = r'\)'
+t_OPEN_PAREN = r'\('
+t_CLOSE_PAREN = r'\)'
 t_INT_DIGIT = r'\d+'
 t_PLUSMINUS = r'\+|\-'
 t_MULTIPLE = r'\*'
-
 t_REAL_DIGIT = r'\d+\.\d+'
 
 
@@ -114,43 +108,41 @@ def t_error(t):
 lexer = lex.lex(reflags=re.UNICODE | re.DOTALL | re.IGNORECASE)
 
 if __name__ == "__main__":
-    data = '''
-program Sqrt;
+    data = '''program Factorials;
 var a,b,c : integer
 var h : real
 
-function sqrt (a: integer) : real;
-   var b,c : integer
-   var d,e,f,g : real
+func factorial (a: integer) return integer;
+   var result,c,d,e : integer
    begin
-       c := b * b;
-       while ( c <= a ) do
+       result = 1;
+       e = 1;
+       while ( e <= a ) do
        begin
-            b := b + 1;
-            c := b * b
+            result = result * e;
+            e = e + 1
        end;
-       b := b - 1;
-       d := a - b * b;
-       e := a * 2;
-       f := d / e;
-       g := b + f;
-       d := f * f;
-       e := 2 * g;
-       f := g - d / e;
-       sqrt := f
-
+       factorial = result
    end;
 
 begin
-    h := sqrt(4);
-    write(h)
+    print("factorials.kia");
+    b = 10;
+    a = 1;
+    while ( a <= b) do
+    begin
+        c = factorial(a);
+        print(c);
+        a = a+1
+    end
 
-end.
-    '''
+end.    '''
 
     lexer.input(data)
-
+    counter = 0
     while True:
-        tok = lexer.token()  # читаем следующий токен
-        if not tok: break  # закончились печеньки
-        print(tok)
+        tok = lexer.token()
+        if not tok: break
+        counter += 1
+        table_tokens.add_row([str(counter), str(tok.type), str(tok.value), str(tok.lineno), str(tok.lexpos)])
+    print(table_tokens)
